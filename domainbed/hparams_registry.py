@@ -24,11 +24,13 @@ def _hparams(algorithm, dataset, random_state):
         # SagNet cannot do more 
         if algorithm == "SagNet":
             hparams['batch_size'] = (12, 12)
+        elif algorithm == "ARM":
+            hparams['batch_size'] = (8, 8)
     else:
         hparams['lr'] = (1e-3, 10**random_state.uniform(-4.5, -2.5))
         hparams['batch_size'] = (64, int(2**random_state.uniform(3, 9)))
 
-    if 'MNIST' in dataset:
+    if dataset in SMALL_IMAGES:
         hparams['weight_decay'] = (0., 0.)
     else:
         hparams['weight_decay'] = (0., 10**random_state.uniform(-6, -2))
@@ -44,7 +46,7 @@ def _hparams(algorithm, dataset, random_state):
             hparams['lr_g'] = (1e-3, 10**random_state.uniform(-4.5, -2.5))
             hparams['lr_d'] = (1e-3, 10**random_state.uniform(-4.5, -2.5))
 
-        if 'MNIST' in dataset:
+        if dataset in SMALL_IMAGES:
             hparams['weight_decay_g'] = (0., 0.)
         else:
             hparams['weight_decay_g'] = (0., 10**random_state.uniform(-6, -2))
